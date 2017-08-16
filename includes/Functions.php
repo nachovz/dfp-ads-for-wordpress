@@ -21,7 +21,7 @@ use DFP_Ads\Post_type as DFP_Ads_Post_Type;
  * @param $id int
  */
 function dfp_ad_position( $id ) {
-	$position = new DFP_Ad_Position( $id );
+	$position = new DFP_Ad_Position( $id , dfp_get_settings_value("dfp_lazy_loading_tags") );
 	$position->display_position();
 }
 
@@ -43,12 +43,15 @@ function dfp_get_ad_positions() {
 	 * @var WP_Query $all_ads
 	 */
 	$all_ads = new WP_Query( $args );
-
+	
+	//print_r("Hello: ".dfp_get_settings_value("dfp_lazy_loading_tags"));
+	//die();
+	
 	$positions = array();
 	if ( $all_ads->have_posts() ) {
 		while ( $all_ads->have_posts() ) :
 			$all_ads->the_post();
-			$positions[] = new DFP_Ad_Position( get_the_ID() );
+			$positions[] = new DFP_Ad_Position( get_the_ID() , dfp_get_settings_value("dfp_lazy_loading_tags"));
 		endwhile;
 	}
 
@@ -79,7 +82,7 @@ function dfp_get_ad_position( $id ) {
 
 	if ( $position !== null && $position->post_type === 'dfp_ads' ) {
 
-		return new DFP_Ad_Position( $position->ID );
+		return new DFP_Ad_Position( $position->ID , dfp_get_settings_value("dfp_lazy_loading_tags") );
 	} else {
 
 		return false;

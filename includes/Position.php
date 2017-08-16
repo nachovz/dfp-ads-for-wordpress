@@ -76,6 +76,26 @@ class Position {
 	 * @var bool
 	 */
 	public $out_of_page = false;
+	
+	/**
+	 * Defines whether the slot should be lazy loaded
+	 *
+	 * @access public
+	 * @since  0.0.1
+	 *
+	 * @var bool
+	 */
+	public $lazy_load_unit = false;
+	
+	/**
+	 * Defines the backup height of the ad unit. This works for lazy loading.
+	 *
+	 * @access public
+	 * @since  0.0.1
+	 *
+	 * @var int
+	 */
+	public $scrolly = 0;
 
 	/**
 	 * Defines targeting for the ad slot
@@ -98,6 +118,16 @@ class Position {
 	 * @var string
 	 */
 	private $position_class = 'dfp_ad_pos';
+	
+	/**
+	 * Defines whether the lazy load option is enabled
+	 *
+	 * @access public
+	 * @since  0.0.1
+	 *
+	 * @var bool
+	 */
+	public $lazy_loading_enabled = false;
 
 	/**
 	 * PHP5 Constructor
@@ -110,7 +140,7 @@ class Position {
 	 *
 	 * @param $id int|null Post ID to grab the post object and create the position
 	 */
-	public function __construct( $id = null ) {
+	public function __construct( $id = null , $lazy_loading ) {
 
 		/**
 		 * @param $position WP_Post
@@ -130,6 +160,8 @@ class Position {
 			$this->sizes        = dfp_get_ad_sizes( $meta['dfp_position_sizes'][0] );
 			$this->out_of_page  = ( isset( $meta['dfp_out_of_page'][0] ) ? true : false );
 			$this->scrolly		= $meta['dfp_scrolly'][0];
+			$this->lazy_load_unit = ( $meta['dfp_scrolly'][0] > 0  ? true : false );
+			$this->lazy_loading_enabled = $lazy_loading;
 		}
 	}
 
@@ -188,11 +220,15 @@ class Position {
 			<script type='text/javascript'>
 				googletag.cmd.push(function () {
 					googletag.display('<?php _e( $this->position_tag, 'dfp-ads'); ?>');
-					//googletag.pubads().refresh();
-					/*if(!singleRefresh){
-					setInterval(function(){googletag.pubads().refresh();}, 120000);// 120 Sec 2 min
-					singleRefresh = true;
-					}*/
+					<?php if( !$this->lazy_load_unit && $this->lazy_loading_enabled ){ ?>
+					googletag.pubads().refresh();
+					var no_refresh_ad = _.find(lazy_ads, function(o){ 
+						return o.unit.C.includes('<?php _e( $this->ad_name, 'dfp-ads'); ?>');
+					}).refreshed = true;
+					<?php } else { ?>
+					
+					//_.find(lazy_ads, function(o){ return o.unit.C.includes('<?php _e( $this->ad_name, 'dfp-ads'); ?>');}).scrollY = document.getElementById('<?php _e( $this->position_tag, 'dfp-ads'); ?>').getBoundingClientRect().bottom;
+					<?php } ?>
 				});
 			</script>
 		</div>

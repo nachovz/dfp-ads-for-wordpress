@@ -3,17 +3,17 @@
  * DFP Ad Manager Bootstrap File
  *
  * @wordpress-plugin
- * Plugin Name:       DFP - DoubleClick Ad Manager
- * Plugin URI:        http://www.chriswgerber.com/dfp-ads/
- * Description:       Manages ad code for DoubleClick for Publishers
- * Author:            Chris W. Gerber
- * Author URI:        http://www.chriswgerber.com/
+ * Plugin Name:       DFP - DoubleClick Ad Manager with Lazy Loading
+ * Plugin URI:        
+ * Description:       Manages ad code for DoubleClick for Publishers with Lazy Loading
+ * Author:            Ignacio Cordoba
+ * Author URI:        http://github.com/nachovz
  * License:           GPL-2.0+
  * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain:       dfp-ads
- * Github Plugin URI: https://github.com/ThatGerber/dfp-ads
- * GitHub Branch:     stable
- * Version:           0.3.2
+ * Github Plugin URI: https://github.com/nachovz/dfp-ads-for-wordpress
+ * GitHub Branch:     master
+ * Version:           0.4
  *
  * The Plugin File
  *

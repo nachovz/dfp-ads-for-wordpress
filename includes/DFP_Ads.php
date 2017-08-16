@@ -319,25 +319,28 @@ Class DFP_Ads {
 		);
 		wp_enqueue_script( $this->script_name );
 		
-		/* Including Lodash library */
-		wp_register_script(
-			"lodash-library", 
-			$this->dir_uri . '/assets/js/lodash.min.js', 
-			array( $this->script_name, $this->google_ad_script_name, 'jquery' ),
-			false,
-			true
-		);
-		wp_enqueue_script( 'lodash-library' );
+		if(!$this->lazy){
 		
-		/* Including Lazy Loading */
-		wp_register_script(
-			"lazy-loading", 
-			$this->dir_uri . '/assets/js/lazy-loading.js', 
-			array( 'lodash-library', $this->script_name, $this->google_ad_script_name, 'jquery' ),
-			false,
-			true
-		);
-		wp_enqueue_script( 'lazy-loading' );
+			/* Including Lodash library */
+			wp_register_script(
+				"lodash-library", 
+				$this->dir_uri . '/assets/js/lodash.min.js', 
+				array( $this->script_name, $this->google_ad_script_name, 'jquery' ),
+				false,
+				false
+			);
+			wp_enqueue_script( 'lodash-library' );
+			
+			/* Including Lazy Loading */
+			wp_register_script(
+				"lazy-loading", 
+				$this->dir_uri . '/assets/js/lazy-loading.js', 
+				array( $this->script_name, $this->google_ad_script_name, 'jquery' ),
+				false,
+				true
+			);
+			wp_enqueue_script( 'lazy-loading' );
+		}
 	}
 
 	/**
