@@ -221,13 +221,12 @@ class Position {
 				googletag.cmd.push(function () {
 					googletag.display('<?php _e( $this->position_tag, 'dfp-ads'); ?>');
 					<?php if( !$this->lazy_load_unit && $this->lazy_loading_enabled ){ ?>
+					//Not lazy loaded
 					googletag.pubads().refresh();
-					var no_refresh_ad = _.find(lazy_ads, function(o){ 
-						return o.unit.C.includes('<?php _e( $this->ad_name, 'dfp-ads'); ?>');
+					var no_refresh_ad = _.find(lazy_ads, function(o){
+						var lazyPosition = o.unit.J || o.unit.C ;
+						return lazyPosition.includes('<?php _e( $this->ad_name, 'dfp-ads'); ?>');
 					}).refreshed = true;
-					<?php } else { ?>
-					
-					//_.find(lazy_ads, function(o){ return o.unit.C.includes('<?php _e( $this->ad_name, 'dfp-ads'); ?>');}).scrollY = document.getElementById('<?php _e( $this->position_tag, 'dfp-ads'); ?>').getBoundingClientRect().bottom;
 					<?php } ?>
 				});
 			</script>

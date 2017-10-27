@@ -2,8 +2,8 @@
 // Listen for the event.
     document.addEventListener('lazy_ads_loaded', function(){
       _.each(lazy_ads, function(o){
-        //var bottomOfThis = document.getElementById(o.unit.j.m);//.getBoundingClientRect();
-        o.scrollY = (o.scrollY === "-1" || document.getElementById(o.unit.j.m).getBoundingClientRect().bottom);
+        var lazyElement = document.getElementById(o.unit.j.m) || document.getElementById(o.unit.l.m);//.getBoundingClientRect();
+        o.scrollY = (o.scrollY === "-1" || parseInt(lazyElement.getBoundingClientRect().bottom, 10));
       });
     }, false);
 
@@ -22,7 +22,7 @@ var listener = function() {
 
   if(winner != undefined && !winner.refreshed){
     googletag.cmd.push(function() {
-      console.log("loading: "+winner.unit.C+" at: "+winner.scrollY);
+      console.log("loading: "+winner.unit.J+" at: "+winner.scrollY);
       googletag.pubads().refresh([winner.unit]);
     });
     // Refresh the ad only once.
