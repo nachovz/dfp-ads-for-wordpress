@@ -139,6 +139,8 @@ class Position {
 	 * @since  0.0.1
 	 *
 	 * @param $id int|null Post ID to grab the post object and create the position
+	 * @param $lazy_loading true|false activates the lazy loading behaviour. 
+	 * 		  General Setting.
 	 */
 	public function __construct( $id = null , $lazy_loading ) {
 
@@ -223,6 +225,7 @@ class Position {
 					<?php if( !$this->lazy_load_unit && $this->lazy_loading_enabled ){ ?>
 					//Not lazy loaded
 					googletag.pubads().refresh();
+
 					var no_refresh_ad = _.find(lazy_ads, function(o){
 						var lazyPosition = o.unit.J || o.unit.C ;
 						return lazyPosition.includes('<?php _e( $this->ad_name, 'dfp-ads'); ?>');

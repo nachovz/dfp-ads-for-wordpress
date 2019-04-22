@@ -68,12 +68,16 @@ googletag.cmd.push(function () {
         ).addService(googletag.pubads());
 
       }else{*/
-        
-        googletag.defineSlot(
+        var theSlot = googletag.defineSlot(
           acct_id + position.ad_name,
           position.sizes,
           position.position_tag
-        ).addService(googletag.pubads());
+        );
+        if( theSlot !== null ){
+          theSlot.addService(googletag.pubads());
+        }else{
+          console.log("Error: Slot not found: "+acct_id+position.ad_name+", "+position.sizes+", "+position.position_tag);
+        }
       //}
     }
   }

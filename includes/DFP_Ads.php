@@ -334,7 +334,7 @@ Class DFP_Ads {
 			/* Including Lazy Loading */
 			wp_register_script(
 				"lazy-loading", 
-				$this->dir_uri . '/assets/js/lazy-loading.js', 
+				$this->dir_uri . '/assets/js/lazy-loading.min.js', 
 				array( $this->script_name, $this->google_ad_script_name, 'jquery' ),
 				false,
 				true

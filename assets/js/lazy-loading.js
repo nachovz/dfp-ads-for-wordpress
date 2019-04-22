@@ -2,8 +2,12 @@
 // Listen for the event.
     document.addEventListener('lazy_ads_loaded', function(){
       _.each(lazy_ads, function(o){
-        var lazyElement = document.getElementById(o.unit.j.m) || document.getElementById(o.unit.l.m);//.getBoundingClientRect();
-        o.scrollY = (o.scrollY === "-1" || parseInt(lazyElement.getBoundingClientRect().bottom, 10));
+        var lazyElement = document.getElementById(o.unit.j.m || o.unit.l.m);
+        if(lazyElement !== null){
+          o.scrollY = (o.scrollY === "-1" || parseInt(lazyElement.getBoundingClientRect().bottom, 10));
+        }else{
+          o.scrollY = 1000000;
+        }
       });
     }, false);
 
@@ -34,34 +38,3 @@ var listener = function() {
 }
 
 window.addEventListener('scroll', _.throttle(listener, 500));
-
-/* ATF load */
-var atf_load = function(){
-  var winners = _.filter(lazy_ads, function(o){ return o.scrollY <= 300 && !o.refreshed });
-
-  if(winners != undefined){
-    
-    _.each(winners, function(winner){
-      
-      googletag.cmd.push( function() {
-        console.log("ATF loading: "+winner.unit.C+" at: "+winner.scrollY);
-        googletag.pubads().refresh([winner.unit]);
-      });
-      
-      // Refresh the ad only once.
-      winner.refreshed = true;
-      
-    });
-    
-
-    // Remove the listener now.
-    //window.removeEventListener('scroll', listener);
-  }
-}
-
-//window.addEventListener('load', atf_load);
-
-/*if(!singleRefresh){
-	setInterval(function(){googletag.pubads().refresh();}, 120000);// 120 Sec 2 min
-	singleRefresh = true;
-}*/
