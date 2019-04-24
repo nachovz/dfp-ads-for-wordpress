@@ -1,1 +1,16 @@
-image: wordpress
+image:
+  file: Dockerfile
+ports:
+  - port: 8080
+  - port: 3306
+    onOpen: ignore
+checkoutLocation: "lamp-example"
+workspaceLocation: "."
+tasks:
+  - name: MySQL
+    command: >
+        mysqld --initialize-insecure;
+        mysqld;
+  - name: Apache
+    command: >
+        apachectl start;
