@@ -76,7 +76,7 @@ class Position {
 	 * @var bool
 	 */
 	public $out_of_page = false;
-	
+
 	/**
 	 * Defines whether the slot should be lazy loaded
 	 *
@@ -86,7 +86,7 @@ class Position {
 	 * @var bool
 	 */
 	public $lazy_load_unit = false;
-	
+
 	/**
 	 * Defines the backup height of the ad unit. This works for lazy loading.
 	 *
@@ -118,7 +118,7 @@ class Position {
 	 * @var string
 	 */
 	private $position_class = 'dfp_ad_pos';
-	
+
 	/**
 	 * Defines whether the lazy load option is enabled
 	 *
@@ -139,7 +139,7 @@ class Position {
 	 * @since  0.0.1
 	 *
 	 * @param $id int|null Post ID to grab the post object and create the position
-	 * @param $lazy_loading true|false activates the lazy loading behaviour. 
+	 * @param $lazy_loading true|false activates the lazy loading behaviour.
 	 * 		  General Setting.
 	 */
 	public function __construct( $id = null , $lazy_loading ) {
@@ -221,7 +221,7 @@ class Position {
 		     class="<?php _e( $this->position_tag, 'dfp-ads' ); ?> <?php _e( $this->ad_name, 'dfp-ads' ); ?> <?php _e( $this->position_class, 'dfp-ads' ); ?>">
 			<script type='text/javascript'>
 				googletag.cmd.push(function () {
-					googletag.display('<?php _e( $this->position_tag, 'dfp-ads'); ?>');
+					googletag.display("<?php _e( $this->position_tag, 'dfp-ads'); ?>");
 					<?php if( !$this->lazy_load_unit && $this->lazy_loading_enabled ){ ?>
 					//Not lazy loaded
 					googletag.pubads().refresh();
