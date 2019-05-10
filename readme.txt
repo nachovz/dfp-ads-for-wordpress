@@ -1,7 +1,7 @@
 === DFP Ad Manager ===
 
-Stable tag: 1.0.0
-Contributors: chriswgerber
+Stable tag: 1.0.1
+Contributors: nachovz,chriswgerber
 Requires at least: 3.0.0
 Tested up to: 5.2
 License: GPLv2 or later
@@ -18,7 +18,7 @@ This plugin is designed to simplify the process of working with DoubleClick for 
 
 Page, category, and tag targeting is built-in, with the option to extend on the DoubleClick Javascript library and add even more targeting and send data from the WordPress backend to DoubleClick.
 
-Follow development of the plugin on [Github.com/ThatGerber/dfp-ads](http://github.com/ThatGerber/dfp-ads)
+Follow development of the plugin on [Github.com/nachovz/dfp-ads-for-wordpress](https://github.com/nachovz/dfp-ads-for-wordpress)
 
 == Installation ==
 
@@ -46,17 +46,16 @@ Follow development of the plugin on [Github.com/ThatGerber/dfp-ads](http://githu
 3. Position Settings Page
 4. Position Import Page
 
-Visit [chriswgerber.com/dfp-ads/](http://www.chriswgerber.com/dfp-ads/) for more information.
-
-== Frequently Asked Questions ==
-
-Submit your questions at [chriswgerber.com/contact/](http://www.chriswgerber.com/contact/).
-
 == Upgrade Notice ==
 
 Update fixes issue with widget rendering.
 
 == Changelog ==
+
+= 1.0.1 =
+
+* Performance optimizations.
+* Debuggning mode available in settings
 
 = 1.0.0 =
 
