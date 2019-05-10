@@ -47,7 +47,7 @@ Class DFP_Ads {
 	 *
 	 * @since  0.3.1
 	 * @access public
-	 * @var bool $account_id
+	 * @var bool $asynch
 	 */
 	public $asynch;
 
@@ -56,9 +56,18 @@ Class DFP_Ads {
 	 *
 	 * @since  0.4.0
 	 * @access public
-	 * @var bool $account_id
+	 * @var bool $lazy
 	 */
 	public $lazy;
+
+    /**
+	 * Setting for enable/disable debug
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 * @var bool $dfp_debug
+	 */
+	public $dfp_debug;
 
 	/**
 	 * Stores the URI of the directory
@@ -181,7 +190,25 @@ Class DFP_Ads {
 		// Tags
 		$this->page_targeting['Tag'] = $this->get_tag_targeting();
 		// SecEme
-		$this->page_targeting['SecEme'] = $this->get_page_targeting();
+		//$this->page_targeting['SecEme'] = $this->get_category_targeting();
+	}
+
+    /**
+	 * Set Debug
+	 *
+	 * Sets the flag for debugging info to show up
+	 *
+	 * @since  1.0.0
+	 * @access public
+	 *
+	 * @param string $val
+	 *
+	 * @return bool
+	 */
+	public function set_dfp_debug( $val ) {
+		$this->dfp_debug = ( $val == 'on' ? true : false );
+
+		return ( isset( $this->dfp_debug ) ? $this->dfp_debug : false );
 	}
 
 	/**
@@ -271,7 +298,8 @@ Class DFP_Ads {
 		if ( $post ) {
 			$tags = get_the_tags( $post->ID );
 			if ( $tags ) {
-				foreach ( $tags as $tag ) {
+				foreach ( $tags as $t ) {
+                    $tag = get_tag($t);
 					$targets[] = $tag->name;
 				}
 			}

@@ -31,7 +31,7 @@ var listener = function() {
 
   if(winner != undefined && !winner.refreshed){
     googletag.cmd.push(function() {
-      console.log("loading: "+winner.unit.getSlotElementId()+" at: "+winner.scrollY);
+        if(window.dfp_debug) console.log("loading: "+winner.unit.getSlotElementId()+" at: "+winner.scrollY);
       googletag.pubads().refresh([winner.unit]);
     });
     // Refresh the ad

@@ -18,6 +18,10 @@ googletag.cmd.push(function () {
   var dfp_ad_data = dfp_ad_object[0],
     acct_id = dfp_ad_data.account_id;
 
+    if(dfp_ad_data.dfp_debug){
+        window.dfp_debug = dfp_ad_data.dfp_debug;
+        console.log(dfp_ad_data);
+    }
   /**
    * Loads Ad Position
    *
@@ -88,20 +92,31 @@ googletag.cmd.push(function () {
    */
   function set_targeting(targeting) {
     for (var target in targeting) {
-      var key = target.toLowerCase();
-      googletag.pubads().setTargeting(key, targeting[target]);
+        if(targeting[target]){
+            var key = target.toLowerCase();
+            googletag.pubads().setTargeting(key, targeting[target]);
+        }
     }
   }
 
   /**
    * Gets lazy loading value
-   * @param {object} targeting
    *
    * return @bool
    */
   function get_lazy_loading() {
     return dfp_ad_data.lazy;
   }
+
+  /**
+   * Gets debug flag value
+   *
+   * return @bool
+   */
+  function get_debug() {
+    return dfp_ad_data.dfp_debug;
+  }
+
 
   // Generates Ad Slots
   load_ad_positions(dfp_ad_data.positions);

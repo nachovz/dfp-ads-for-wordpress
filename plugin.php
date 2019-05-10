@@ -45,7 +45,7 @@ use DFP_Ads\Admin\Import_Form as DFP_Ads_Import_Form;
 use DFP_Ads\Admin as DFP_Ads_Admin;
 
 if ( ! defined( 'DFP_CONCAT_SCRIPTS' ) ) {
-	define( 'DFP_CONCAT_SCRIPTS', true );
+	define( 'DFP_CONCAT_SCRIPTS', false );
 }
 /*
  * Initialization for Post Type
@@ -70,6 +70,7 @@ $dfp_ads->dir_uri = plugins_url( null, __FILE__ );
 $dfp_ads->set_account_id( dfp_get_settings_value( 'dfp_property_code' ) );
 $dfp_ads->set_asynchronous_loading( dfp_get_settings_value( 'dfp_synchronous_tags' ) );
 $dfp_ads->set_lazy_loading( dfp_get_settings_value( 'dfp_lazy_loading_tags' ) );
+$dfp_ads->set_dfp_debug( dfp_get_settings_value( 'dfp_debug' ) );
 /*
  * Enqueues the styles and scripts into WordPress. When this action runs
  * it also will grab all of the positions and other filtered in information
@@ -195,6 +196,14 @@ if ( is_admin() ) {
 			'title'       => 'Use Lazy loading for Ad Tags',
 			'section'     => 'general_settings',
 			'description' => '<em>Custom implementation of lazy loading of ad units. Improves loading time of website and viewability of ads; decreases total impressions</em>'
+		);
+        $fields['dfp_debug'] = array(
+			'id'          => 'dfp_debug',
+			'field'       => 'checkbox',
+			'callback'    => 'checkbox',
+			'title'       => 'Enable debuggin information (Console feedback)',
+			'section'     => 'general_settings',
+			'description' => '<em>Console logs of ad positions being loaded and height information. Intended for lazy loading behavior</em>'
 		);
 
 		return $fields;
