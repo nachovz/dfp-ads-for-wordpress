@@ -1,40 +1,74 @@
 
-// Listen for the event.
+// Listen for the event. Loading lazy units
     document.addEventListener('lazy_ads_loaded', function(){
-      _.each(lazy_ads, function(o){
-        var lazyElement = document.getElementById(o.unit.j.m || o.unit.l.m);
-        if(lazyElement !== null){
-          o.scrollY = (o.scrollY === "-1" || parseInt(lazyElement.getBoundingClientRect().bottom, 10));
-        }else{
-          o.scrollY = 1000000;
+        for(let laCounter = 0; laCounter < lazy_ads.length; laCounter++ ){
+            var lazyElement = document.getElementById(lazy_ads[laCounter].unit.getSlotElementId());
+            if(lazyElement !== null){
+                lazy_ads[laCounter].scrollY = (lazy_ads[laCounter].scrollY === "-1" || parseInt(lazyElement.getBoundingClientRect().bottom, 10));
+            }else{
+                lazy_ads[laCounter].scrollY = 1000000;
+            }
+
         }
-      });
     }, false);
 
-
-// Refresh the bottom slot when it is about to come into view.
-var refreshed = false;
-
-// Value of scrollY at which the ad is about to come into view.
-var adAlmostVisibleScrollValue = 300;
-
-// Warning: This is a sample implementation. Listening to onscroll without 
-// any throttling might not be very efficient.
+//Throttleling the scroll.
 var listener = function() {
-  
-  var winner = _.find(lazy_ads, function(o){ return (o.scrollY - 400) <= window.scrollY && !o.refreshed });
+
+  let winner = lazy_ads.find( function(o){
+    return  (o.scrollY - window.innerHeight) <= window.scrollY
+            && (o.scrollY + Math.floor(window.innerHeight/3)) >= window.scrollY
+            && !o.refreshed;
+    });
+
+    let ready = lazy_ads.find( function(o){
+        return Math.floor(o.scrollY - window.innerHeight*1.5) >= (window.scrollY)
+        || Math.floor(o.scrollY + window.innerHeight*1) <= (window.scrollY)
+        && o.refreshed;
+    });
+
+    ready && (ready.refreshed = false);
 
   if(winner != undefined && !winner.refreshed){
     googletag.cmd.push(function() {
-      console.log("loading: "+winner.unit.J+" at: "+winner.scrollY);
+      console.log("loading: "+winner.unit.getSlotElementId()+" at: "+winner.scrollY);
       googletag.pubads().refresh([winner.unit]);
     });
-    // Refresh the ad only once.
+    // Refresh the ad
     winner.refreshed = true;
-
-    // Remove the listener now.
-    window.removeEventListener('scroll', listener);
   }
 }
 
-window.addEventListener('scroll', _.throttle(listener, 500));
+function throttle(func, wait, options) {
+  var context, args, result;
+  var timeout = null;
+  var previous = 0;
+  if (!options) options = {};
+  var later = function() {
+    previous = options.leading === false ? 0 : Date.now();
+    timeout = null;
+    result = func.apply(context, args);
+    if (!timeout) context = args = null;
+  };
+  return function() {
+    var now = Date.now();
+    if (!previous && options.leading === false) previous = now;
+    var remaining = wait - (now - previous);
+    context = this;
+    args = arguments;
+    if (remaining <= 0 || remaining > wait) {
+      if (timeout) {
+        clearTimeout(timeout);
+        timeout = null;
+      }
+      previous = now;
+      result = func.apply(context, args);
+      if (!timeout) context = args = null;
+    } else if (!timeout && options.trailing !== false) {
+      timeout = setTimeout(later, remaining);
+    }
+    return result;
+  };
+};
+
+window.addEventListener('scroll', throttle(listener, 500));

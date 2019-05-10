@@ -221,15 +221,15 @@ class Position {
 		     class="<?php _e( $this->position_tag, 'dfp-ads' ); ?> <?php _e( $this->ad_name, 'dfp-ads' ); ?> <?php _e( $this->position_class, 'dfp-ads' ); ?>">
 			<script type='text/javascript'>
 				googletag.cmd.push(function () {
-					googletag.display("<?php _e( $this->position_tag, 'dfp-ads'); ?>");
-					<?php if( !$this->lazy_load_unit && $this->lazy_loading_enabled ){ ?>
-					//Not lazy loaded
-					googletag.pubads().refresh();
+                    //Needed for both lazy and non-lazy
+                    googletag.display("<?php _e( $this->position_tag, 'dfp-ads'); ?>");
+					<?php if( !$this->lazy_loading_enabled ){ ?>
+					//googletag.pubads().refresh();
 
-					var no_refresh_ad = _.find(lazy_ads, function(o){
-						var lazyPosition = o.unit.J || o.unit.C ;
+					/*var no_refresh_ad = _.find(lazy_ads, function(o){
+						var lazyPosition = o.unit.getSlotElementId() ;
 						return lazyPosition.includes('<?php _e( $this->ad_name, 'dfp-ads'); ?>');
-					}).refreshed = true;
+					}).refreshed = true;*/
 					<?php } ?>
 				});
 			</script>

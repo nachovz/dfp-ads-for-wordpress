@@ -4,7 +4,7 @@
  *
  * @wordpress-plugin
  * Plugin Name:       DFP - DoubleClick Ad Manager with Lazy Loading
- * Plugin URI:        
+ * Plugin URI:
  * Description:       Manages ad code for DoubleClick for Publishers with Lazy Loading
  * Author:            Ignacio Cordoba
  * Author URI:        http://github.com/nachovz
@@ -45,7 +45,7 @@ use DFP_Ads\Admin\Import_Form as DFP_Ads_Import_Form;
 use DFP_Ads\Admin as DFP_Ads_Admin;
 
 if ( ! defined( 'DFP_CONCAT_SCRIPTS' ) ) {
-	define( 'DFP_CONCAT_SCRIPTS', false );
+	define( 'DFP_CONCAT_SCRIPTS', true );
 }
 /*
  * Initialization for Post Type

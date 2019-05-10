@@ -2,7 +2,7 @@
  * Javascript for Google Ads
  *
  **/
- 
+
  /**
   * Global definition
   */
@@ -31,11 +31,11 @@ googletag.cmd.push(function () {
     }
     // Create the event.
     var event = document.createEvent('Event');
-    
+
     // Define that the event name is 'build'.
     event.initEvent('lazy_ads_loaded', true, true);
     //var event = new Event('lazy_ads_loaded');
-    
+
     // Dispatch the event.
     document.dispatchEvent(event);
   }
@@ -46,9 +46,9 @@ googletag.cmd.push(function () {
    * @param {Object} position - Array of ad positions
    */
   function define_ad_slot(position) {
-    
+
     if(get_lazy_loading() === false){
-      
+
       lazy_ads.push({
         "unit"      : googletag.defineSlot(
                         acct_id + position.ad_name,
@@ -58,9 +58,9 @@ googletag.cmd.push(function () {
         "scrollY"   : position.scrolly, //> -1 ? (document.getElementById(position.position_tag).getBoundingClientRect().bottom || position.scrolly) : position.scrolly,
         "refreshed" : position.scrolly > -1 ? false : true
       });
-      
+
     } else {
-      
+
       /*if (position.out_of_page === true) {
         googletag.defineOutOfPageSlot(
           acct_id + position.ad_name,
@@ -81,7 +81,7 @@ googletag.cmd.push(function () {
       //}
     }
   }
-  
+
   /**
    * Sets Page level targeting
    * @param {object} targeting
@@ -92,11 +92,11 @@ googletag.cmd.push(function () {
       googletag.pubads().setTargeting(key, targeting[target]);
     }
   }
-  
+
   /**
    * Gets lazy loading value
    * @param {object} targeting
-   * 
+   *
    * return @bool
    */
   function get_lazy_loading() {
@@ -113,11 +113,12 @@ googletag.cmd.push(function () {
   if (dfp_ad_data.asynch === true) {
     //googletag.pubads().enableAsyncRendering();
   }
+  googletag.pubads().enableSingleRequest();
   //Lazy Loading
   if(get_lazy_loading() === false){
     googletag.pubads().disableInitialLoad();
   }
   // Go
   googletag.enableServices();
-  
+
 });

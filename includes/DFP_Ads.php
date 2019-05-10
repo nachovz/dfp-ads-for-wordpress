@@ -50,9 +50,9 @@ Class DFP_Ads {
 	 * @var bool $account_id
 	 */
 	public $asynch;
-	
+
 	/**
-	 * Setting for whether to lazy load ad 
+	 * Setting for whether to lazy load ad
 	 *
 	 * @since  0.4.0
 	 * @access public
@@ -144,7 +144,7 @@ Class DFP_Ads {
 
 		return ( isset( $this->asynch ) ? $this->asynch : false );
 	}
-	
+
 	/**
 	 * Set Lazy Loading
 	 *
@@ -292,9 +292,12 @@ Class DFP_Ads {
 		if ( defined( 'DFP_CONCAT_SCRIPTS' ) && true === DFP_CONCAT_SCRIPTS ) {
 			$gads_script_url    = $this->dir_uri . '/assets/js/google-ads.min.js';
 			$dfp_ads_script_url = $this->dir_uri . '/assets/js/dfp-ads.min.js';
+            $lazy_loading_script_url = $this->dir_uri . '/assets/js/lazy-loading.min.js';
 		} else {
 			$gads_script_url    = $this->dir_uri . '/assets/js/google-ads.js';
 			$dfp_ads_script_url = $this->dir_uri . '/assets/js/dfp-ads.js';
+            $lazy_loading_script_url = $this->dir_uri . '/assets/js/lazy-loading.js';
+
 		}
 		// Google Ads JS Script
 		wp_register_script(
@@ -318,23 +321,13 @@ Class DFP_Ads {
 			false
 		);
 		wp_enqueue_script( $this->script_name );
-		
+
 		if(!$this->lazy){
-		
-			/* Including Lodash library */
-			wp_register_script(
-				"lodash-library", 
-				$this->dir_uri . '/assets/js/lodash.min.js', 
-				array( $this->script_name, $this->google_ad_script_name, 'jquery' ),
-				false,
-				false
-			);
-			wp_enqueue_script( 'lodash-library' );
-			
+
 			/* Including Lazy Loading */
 			wp_register_script(
-				"lazy-loading", 
-				$this->dir_uri . '/assets/js/lazy-loading.min.js', 
+				"lazy-loading",
+				$lazy_loading_script_url,
 				array( $this->script_name, $this->google_ad_script_name, 'jquery' ),
 				false,
 				true
