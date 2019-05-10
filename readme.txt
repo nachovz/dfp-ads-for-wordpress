@@ -1,9 +1,9 @@
 === DFP Ad Manager ===
 
-Stable tag: 0.3.2
+Stable tag: 1.0.0
 Contributors: chriswgerber
 Requires at least: 3.0.0
-Tested up to: 4.2.2
+Tested up to: 5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: dfp, doubleclick, ads, ad trafficking, ad ops
@@ -57,6 +57,11 @@ Submit your questions at [chriswgerber.com/contact/](http://www.chriswgerber.com
 Update fixes issue with widget rendering.
 
 == Changelog ==
+
+= 1.0.0 =
+
+* Adds lazy loading option. Ads will load when closing into view.
+* Performance optimizations.
 
 = 0.3.2 =
 
