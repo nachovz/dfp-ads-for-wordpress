@@ -352,7 +352,7 @@ Class DFP_Ads {
 
 		if(!$this->lazy){
 
-			/* Including Lazy Loading */
+			/* Including Lazy Loading 
 			wp_register_script(
 				"lazy-loading",
 				$lazy_loading_script_url,
@@ -360,7 +360,7 @@ Class DFP_Ads {
 				false,
 				true
 			);
-			wp_enqueue_script( 'lazy-loading' );
+			wp_enqueue_script( 'lazy-loading' );*/
 		}
 	}
 
