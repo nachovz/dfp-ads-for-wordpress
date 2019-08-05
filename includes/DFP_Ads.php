@@ -111,8 +111,16 @@ Class DFP_Ads {
 	 * @access public
 	 */
 	public function __construct() {
+		//add_action( 'wp_head', 'insert_gpt_script' );
 		/** Creates DFP_Ads Shortcode */
 		add_shortcode( 'dfp_ads', array( $this, 'shortcode' ) );
+		
+	}
+
+	function insert_gpt_script(){
+		?>
+			<script async src=""></script>
+		<?php
 	}
 
 	/**
@@ -330,11 +338,12 @@ Class DFP_Ads {
 		// Google Ads JS Script
 		wp_register_script(
 			$this->google_ad_script_name,
-			$gads_script_url,
+			'https://securepubads.g.doubleclick.net/tag/js/gpt.js',
 			array( 'jquery' ),
 			false,
 			false
 		);
+		
 		/* Get the Final Ad Positions */
 		$ad_positions = apply_filters( 'pre_dfp_ads_to_js', $this );
 		// Send data to front end.
