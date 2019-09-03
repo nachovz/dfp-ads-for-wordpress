@@ -105,6 +105,16 @@ Class DFP_Ads {
 	);
 
 	/**
+	 * Sets is home
+	 *
+	 * @access public
+	 * @since  1.0
+	 *
+	 * @var bool
+	 */
+	public $is_home = false;
+
+	/**
 	 * PHP5 Constructor
 	 *
 	 * @since  0.0.1
@@ -114,6 +124,7 @@ Class DFP_Ads {
 		//add_action( 'wp_head', 'insert_gpt_script' );
 		/** Creates DFP_Ads Shortcode */
 		add_shortcode( 'dfp_ads', array( $this, 'shortcode' ) );
+
 	}
 
 	function insert_gpt_script(){
@@ -194,7 +205,8 @@ Class DFP_Ads {
 		$this->page_targeting['Page'] = $this->get_page_targeting();
     // Categories
     if( $this->page_targeting['Page'][0] == 'Home'){
-      $this->page_targeting['Category'] = ['Home'];
+	  $this->page_targeting['Category'] = ['Home'];
+	  $this->is_home = true;
     }else{
       $this->page_targeting['Category'] = $this->get_category_targeting();
     }
@@ -346,6 +358,7 @@ Class DFP_Ads {
 			false,
 			false
 		);
+
 		/* Get the Final Ad Positions */
 		$ad_positions = apply_filters( 'pre_dfp_ads_to_js', $this );
 		// Send data to front end.
