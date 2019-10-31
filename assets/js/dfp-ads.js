@@ -10,10 +10,18 @@ var singleRefresh = false;
 var lazy_ads =[];
 //TEMP
 var dynamic_scroll = 2000;
+
+
 /**
  * Ad Position Creation
  */
 googletag.cmd.push(function () {
+  //Ad SIZES
+  const mappingBox = googletag.sizeMapping().addSize([1050, 200], [300, 600]).addSize([0, 0], [300, 250]).build();
+  const mappingContent = googletag.sizeMapping().addSize([0, 0], [300, 250]).build();
+
+  const mappingBanner = googletag.sizeMapping().addSize([1050, 200], [[970, 90], [728, 90]]).addSize([0, 0], [[320, 100], [320, 50]]).build();
+
   // Object from Ajax
   var dfp_ad_data = dfp_ad_object[0],
     acct_id = dfp_ad_data.account_id;
@@ -51,39 +59,48 @@ googletag.cmd.push(function () {
    */
   function define_ad_slot(position) {
 
-    if(get_lazy_loading() === false){
+    //if(get_lazy_loading() === false){
 
-      lazy_ads.push({
-        "unit"      : googletag.defineSlot(
-                        acct_id + position.ad_name,
-                        position.sizes,
-                        position.position_tag
-                      ).addService(googletag.pubads()),
-        "scrollY"   : position.scrolly, //> -1 ? (document.getElementById(position.position_tag).getBoundingClientRect().bottom || position.scrolly) : position.scrolly,
-        "refreshed" : position.scrolly > -1 ? false : true
-      });
+      let slotAd = null; 
+      if(position.ad_name.includes("box")) {
+        if(!dfp_ad_data.is_home){
+          slotAd = googletag.defineSlot(
+            acct_id + position.ad_name,
+            position.sizes,
+            position.position_tag
+          ).defineSizeMapping(mappingContent).addService(googletag.pubads());
+        }else{
+          slotAd = googletag.defineSlot(
+            acct_id + position.ad_name,
+            position.sizes,
+            position.position_tag
+          ).defineSizeMapping(mappingBox).addService(googletag.pubads());
+        }
+      }
+      if(position.ad_name.includes("banner")) slotAd = googletag.defineSlot(
+        acct_id + position.ad_name,
+        position.sizes,
+        position.position_tag
+      ).defineSizeMapping(mappingBanner).addService(googletag.pubads());
+      if (!slotAd) slotAd = googletag.defineSlot(
+        acct_id + position.ad_name,
+        position.sizes,
+        position.position_tag
+      ).addService(googletag.pubads());
 
-    } else {
+    /*} else {
 
-      /*if (position.out_of_page === true) {
-        googletag.defineOutOfPageSlot(
-          acct_id + position.ad_name,
-          position.position_tag + '-oop'
-        ).addService(googletag.pubads());
-
-      }else{*/
         var theSlot = googletag.defineSlot(
           acct_id + position.ad_name,
           position.sizes,
           position.position_tag
-        );
+        ).defineSizeMapping(mapping1);
         if( theSlot !== null ){
           theSlot.addService(googletag.pubads());
         }else{
           console.log("Error: Slot not found: "+acct_id+position.ad_name+", "+position.sizes+", "+position.position_tag);
         }
-      //}
-    }
+    }*/
   }
 
   /**
@@ -120,20 +137,28 @@ googletag.cmd.push(function () {
 
   // Generates Ad Slots
   load_ad_positions(dfp_ad_data.positions);
-  // Collapse Empty Divs
-  googletag.pubads().collapseEmptyDivs(true);
+  
   // Targeting
   set_targeting(dfp_ad_data.page_targeting);
   // Asynchronous Loading
   if (dfp_ad_data.asynch === true) {
     //googletag.pubads().enableAsyncRendering();
   }
-  googletag.pubads().enableSingleRequest();
+  //googletag.pubads().enableSingleRequest();
   //Lazy Loading
   if(get_lazy_loading() === false){
-    googletag.pubads().disableInitialLoad();
+    googletag.pubads().enableLazyLoad({
+      fetchMarginPercent: 200,  // Fetch slots within 5 viewports.
+      renderMarginPercent: 100,  // Render slots within 2 viewports.
+      mobileScaling: 2.0  // Double the above values on mobile.
+    });
+    //googletag.pubads().disableInitialLoad();
+  }else{
+    // Collapse Empty Divs
+    googletag.pubads().collapseEmptyDivs(true);
   }
   // Go
+
   googletag.enableServices();
 
 });
